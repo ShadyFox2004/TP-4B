@@ -1,8 +1,5 @@
 package tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,6 +8,8 @@ import cartes.SorteCartes;
 import cartes.ValeurCartes;
 import exceptions.PileException;
 import structures.pile.Pile;
+
+import static org.junit.Assert.*;
 
 
 /**
@@ -68,11 +67,11 @@ public class PileTest {
 
     @Test
     public void isEmpty() {
-        assertEquals(true, pile.isEmpty());
+        assertTrue(pile.isEmpty());
         
         pile.empiler(3);
 
-        assertEquals(false, pile.isEmpty());
+        assertFalse(pile.isEmpty());
     }
 
     @Test
@@ -100,12 +99,12 @@ public class PileTest {
     @Test
     public void vider() {
         pile.empiler(34);
-        pile.empiler(new Double(2));
+        pile.empiler(2.0);
 
-        assertEquals(false, pile.isEmpty());
+        assertFalse(pile.isEmpty());
         
         pile.vider();
 
-        assertEquals(true, pile.isEmpty());
+        assertTrue(pile.isEmpty());
     }
 }
