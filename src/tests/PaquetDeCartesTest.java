@@ -46,9 +46,8 @@ public class PaquetDeCartesTest
     @Test
     public void consulterCarte()
     {
-        Carte carte = paquet.consulterCarte(paquet.size()-1);
-        //TODO peut pas tester sans le code de la classe carte
-        assertEquals(paquet.prendreCarte(paquet.size() -1), carte);
+        Carte carte = paquet.consulterCarte(paquet.size() - 1);
+        assertEquals(paquet.prendreCarte(paquet.size() - 1), carte);
     }
 
     @Test
@@ -83,7 +82,8 @@ public class PaquetDeCartesTest
     {
         assertFalse(paquet.isEmpty());
 
-        while (!paquet.isEmpty()) {
+        while (!paquet.isEmpty())
+        {
             paquet.prendreCarte(0);
         }
 
