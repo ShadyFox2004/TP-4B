@@ -31,7 +31,7 @@ public class AcesUpSolitaireTest
         // deplace la carte vers une colonne vide
         jeu.gestionDeplacerListe(0);
 
-        assertEquals(tailleColonne - 1, jeu.getColonneCartes(0).size());
+        assertEquals(tailleColonne, jeu.getColonneCartes(0).size());
 
     }
 

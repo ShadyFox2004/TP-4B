@@ -512,10 +512,13 @@ public class AcesUpSolitaire extends JFrame
 
         // deplace la derniere carte de la colonne recu en parametre
         List<Carte> colonneVide = getColonneCartes(indexColonneVide);
-        colonneVide.add(colonne.get(colonne.size()));
+        colonneVide.add(colonne.get(colonne.size() - 1));
 
         // enleve la carte de la colonne originelle
-        colonne.remove(colonne.size());
+        colonne.remove(colonne.size() - 1);
+
+        dessinerListeCartes(indexColonne);
+        dessinerListeCartes(indexColonneVide);
 
     }
 
