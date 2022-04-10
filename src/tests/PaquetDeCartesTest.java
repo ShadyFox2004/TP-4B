@@ -33,21 +33,22 @@ public class PaquetDeCartesTest
         {
             isEqual = paquet.consulterCarte(i).equals(compare.consulterCarte(i));
         }
-        assertEquals(true, isEqual);
+        assertTrue(isEqual);
         paquet.brasser();
         boolean isEqual2 = false;
         for (int i = 0; i < paquet.size(); i++)
         {
             isEqual2 = paquet.consulterCarte(i).equals(compare.consulterCarte(i));
         }
-        assertEquals(false, paquet.equals(compare));
+        assertNotEquals(paquet, compare);
     }
 
     @Test
     public void consulterCarte()
     {
+        Carte carte = paquet.consulterCarte(paquet.size()-1);
         //TODO peut pas tester sans le code de la classe carte
-        assertEquals("", paquet.prendreCarte(0).toStringCarte());
+        assertEquals(paquet.prendreCarte(paquet.size() -1), carte);
     }
 
     @Test
@@ -66,7 +67,7 @@ public class PaquetDeCartesTest
         {
             isRetourner = paquet.consulterCarte(i).estVisible();
         }
-        assertEquals(true, isRetourner);
+        assertTrue(isRetourner);
     }
 
     @Test
@@ -80,11 +81,12 @@ public class PaquetDeCartesTest
     @Test
     public void isEmpty()
     {
-        //TODO Je n'arrive pas a vider le arraylist
-        assertEquals(52, paquet.size());
-        ArrayList<Carte> temp = new ArrayList<Carte>();
-        // le test il marche pas parce que j'arrive pas a vider le paquet
+        assertFalse(paquet.isEmpty());
 
-        assertEquals(0, paquet.size());
+        while (!paquet.isEmpty()) {
+            paquet.prendreCarte(0);
+        }
+
+        assertTrue(paquet.isEmpty());
     }
 }

@@ -71,9 +71,8 @@ public class PaquetDeCartes
     {
         for (int i = 0; i < NBR_ECHANGE; i++)
         {
-            permuterCarte(randomNum(1, paquet.size()), randomNum(1, paquet.size()));
+            permuterCarte(randomNum(1, paquet.size()-1), randomNum(1, paquet.size()-1));
         }
-
     }
 
     /**
@@ -85,13 +84,7 @@ public class PaquetDeCartes
     private void permuterCarte(int index1,
                                int index2)
     {
-        // naive approach cause not enought time and lazy
-        Carte temp = paquet.get(index1);
-        Carte temp2 = paquet.get(index2);
-        paquet.remove(index1);
-        paquet.add(index1, temp2);
-        paquet.remove(index2);
-        paquet.add(index2, temp);
+        paquet.set(index2, paquet.set(index1, paquet.get(index2)));
     }
 
     /**
