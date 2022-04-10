@@ -30,9 +30,9 @@ public class Pioche
     public Pioche(PaquetDeCartes paquet)
     {
         pioche = new Pile();
-        for (int i = 0; i < paquet.size(); i++)
+        while (!paquet.isEmpty())
         {
-            pioche.empiler(paquet.prendreCarte(i));
+            pioche.empiler(paquet.prendreCarte(0));
         }
     }
 

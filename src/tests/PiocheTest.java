@@ -20,6 +20,7 @@ public class PiocheTest
     @Test
     public void piger()
     {
+        assertEquals(52, pioche.size());
         pioche.piger();
         assertEquals(51, pioche.size());
     }
@@ -27,19 +28,20 @@ public class PiocheTest
     @Test
     public void consulterDessus()
     {
-        assertEquals("", pioche.consulterDessus());
+        assertEquals(pioche.piger().toStringCarte(), pioche.consulterDessus());
     }
 
     @Test
     public void isEmpty()
     {
-        for (int i = 0 ; i < pioche.size(); i++)
+        assertFalse(pioche.isEmpty());
+
+        while (pioche.size() != 0) // Until
         {
             pioche.piger();
-            System.gc();
         }
 
-        assertEquals(0, pioche.size());
+        assertTrue(pioche.isEmpty());
     }
 
     @Test
