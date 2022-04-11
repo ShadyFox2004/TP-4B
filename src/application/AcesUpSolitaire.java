@@ -500,7 +500,25 @@ public class AcesUpSolitaire extends JFrame
     // TODO Complétez le code de la méthode : gestionDeplacerListe
     public void gestionDeplacerListe(int indexColonne)
     {
+        List<Carte> colonne = getColonneCartes(indexColonne);
 
+        int indexColonneVide = 0;
+
+        // trouve une colonne de carte vide
+        while (!getColonneCartes(indexColonneVide).isEmpty())
+        {
+            indexColonneVide++;
+        }
+
+        // deplace la derniere carte de la colonne recu en parametre
+        List<Carte> colonneVide = getColonneCartes(indexColonneVide);
+        colonneVide.add(colonne.get(colonne.size() - 1));
+
+        // enleve la carte de la colonne originelle
+        colonne.remove(colonne.size() - 1);
+
+        dessinerListeCartes(indexColonne);
+        dessinerListeCartes(indexColonneVide);
     }
 
     /**
