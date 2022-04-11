@@ -42,12 +42,12 @@ public class Triche
 			parent.addTricher();
 			if (choixColonne < 5)
 			{
-				tricheMonter(parent.getColonneCartes(choixColonne - 1));
+				tricheMonter(parent.getPartie().getColonneCartes(choixColonne - 1));
 				parent.dessinerListeCartes(choixColonne - 1);
 			}
 			else
 			{
-				tricheDescendre(parent.getColonneCartes(choixColonne - 5));
+				tricheDescendre(parent.getPartie().getColonneCartes(choixColonne - 5));
 				parent.dessinerListeCartes(choixColonne - 5);
 			}
 		}

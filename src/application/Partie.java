@@ -4,6 +4,8 @@ import cartes.Carte;
 import cartes.PaquetDeCartes;
 import cartes.Pioche;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,5 +140,36 @@ public class Partie implements Serializable {
 
         return (!(compteSorte != (Math.pow(2, colonneCartes.length) - 1))
                 || !colonneDeplacable);
+    }
+
+    /**
+     * Permet de faire l'enregistrement des infos d'une partie dans le fichier
+     * (File) reçu en paramètre. Les infos d'une partie sont les colonnes de
+     * cartes et la pioche. On utilise la sérialisation pour faire
+     * l'enregistrement de l'information.
+     *
+     * @param pCible , le fichier cible
+     * @throws IOException
+     */
+    // TODO Complétez le code de la méthode : enregistrerInfoPartie
+    public void enregistrerInfo(File pCible) throws IOException
+    {
+
+    }
+
+
+    /**
+     * Permet de récupérer les infos d'une partie à partir du fichier (File)
+     * reçu en paramètre.
+     *
+     * @param pSource , le fichier source
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    // TODO Complétez le code de la méthode : lireInfoPartie
+    public void lireInfoPartie(File pSource)
+            throws IOException, ClassNotFoundException
+    {
+
     }
 }

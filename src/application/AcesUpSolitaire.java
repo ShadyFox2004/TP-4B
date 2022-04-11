@@ -157,6 +157,12 @@ public class AcesUpSolitaire extends JFrame
     }
 
 
+    /**
+     * Get partie
+     */
+    public Partie getPartie() {
+        return partie;
+    }
 
     /**
      * Compte le nombre de fois que le joueur a triché
@@ -474,7 +480,7 @@ public class AcesUpSolitaire extends JFrame
         }
 
         // deplace la derniere carte de la colonne recu en parametre
-        List<Carte> colonneVide = partie.getColonneCartes()[indexColonneVide];
+        List<Carte> colonneVide = partie.getColonneCartes(indexColonneVide);
         colonneVide.add(colonne.get(colonne.size() - 1));
 
         // enleve la carte de la colonne originelle
