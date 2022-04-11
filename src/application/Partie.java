@@ -4,6 +4,8 @@ import cartes.Carte;
 import cartes.PaquetDeCartes;
 import cartes.Pioche;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +61,27 @@ public class Partie implements Serializable {
         return colonneCartes;
     }
 
+    /**
+     * Retourne la colonne de cartes correspondant au numéro demandé en
+     * paramètre.
+     *
+     * @param index le numéro de la colonne souhaitée de 0 à 3
+     * @return un pointeur sur la colonne demandée ou null si le numéro n'est
+     * pas bon.
+     */
+    public List getColonneCartes(int index)
+    {
+        List retColonne;
+        if (index >= 0 && index < AcesUpSolitaire.NBR_COLONNES_DE_CARTES)
+        {
+            retColonne = colonneCartes[index];
+        } else
+        {
+            retColonne = null;
+        }
+        return retColonne;
+    }
+
     public void setColonneCartes(List[] colonneCartes) {
         this.colonneCartes = colonneCartes;
     }
@@ -70,10 +93,17 @@ public class Partie implements Serializable {
      *
      * @return boolean, vrai si on a une victoire.
      */
-    // TODO Complétez le code de la méthode : partieGagne
-    public boolean partieGagner()
+    public boolean estGagner()
     {
-        return true;
+        boolean isGagner = false;
+        if (pioche.isEmpty())
+        {
+            for (List<Carte> colonneDeCarte : colonneCartes)
+            {
+                isGagner = colonneDeCarte.size() == 1 && colonneDeCarte.get(0).getValeur().getValeur() == 1;
+            }
+        }
+        return isGagner;
     }
 
     /**
@@ -83,7 +113,7 @@ public class Partie implements Serializable {
      * @return boolean, vrai s'il n'est pas possible de jouer un autre coup,
      *         donc que la partie est terminée.
      */
-    public boolean partieTerminer()
+    public boolean estTerminer()
     {
         Carte carteTemp = null;
         int compteSorte = 0;
@@ -110,5 +140,36 @@ public class Partie implements Serializable {
 
         return (!(compteSorte != (Math.pow(2, colonneCartes.length) - 1))
                 || !colonneDeplacable);
+    }
+
+    /**
+     * Permet de faire l'enregistrement des infos d'une partie dans le fichier
+     * (File) reçu en paramètre. Les infos d'une partie sont les colonnes de
+     * cartes et la pioche. On utilise la sérialisation pour faire
+     * l'enregistrement de l'information.
+     *
+     * @param pCible , le fichier cible
+     * @throws IOException
+     */
+    // TODO Complétez le code de la méthode : enregistrerInfoPartie
+    public void enregistrerInfo(File pCible) throws IOException
+    {
+
+    }
+
+
+    /**
+     * Permet de récupérer les infos d'une partie à partir du fichier (File)
+     * reçu en paramètre.
+     *
+     * @param pSource , le fichier source
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    // TODO Complétez le code de la méthode : lireInfoPartie
+    public void lireInfoPartie(File pSource)
+            throws IOException, ClassNotFoundException
+    {
+
     }
 }
