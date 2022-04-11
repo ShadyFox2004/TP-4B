@@ -500,7 +500,25 @@ public class AcesUpSolitaire extends JFrame
     // TODO Complétez le code de la méthode : gestionDeplacerListe
     public void gestionDeplacerListe(int indexColonne)
     {
+        List<Carte> colonne = getColonneCartes(indexColonne);
 
+        int indexColonneVide = 0;
+
+        // trouve une colonne de carte vide
+        while (!getColonneCartes(indexColonneVide).isEmpty())
+        {
+            indexColonneVide++;
+        }
+
+        // deplace la derniere carte de la colonne recu en parametre
+        List<Carte> colonneVide = getColonneCartes(indexColonneVide);
+        colonneVide.add(colonne.get(colonne.size() - 1));
+
+        // enleve la carte de la colonne originelle
+        colonne.remove(colonne.size() - 1);
+
+        dessinerListeCartes(indexColonne);
+        dessinerListeCartes(indexColonneVide);
     }
 
     /**
@@ -518,7 +536,44 @@ public class AcesUpSolitaire extends JFrame
     // TODO Complétez le code de la méthode : gestionEnleverListe
     public void gestionEnleverListe(int pNoListe)
     {
+        // instance qui represente la colonne facilite les manips
+        List<Carte> colonne = getColonneCartes(pNoListe);
 
+        // verifie si il ne reste que deux carte dans la colonne
+        if (colonne.size() == 2)
+        {
+            // verifie si les deux carte sont de la meme sorte
+            if (colonne.get(0).getSorte() == colonne.get(1).getSorte())
+            {
+
+                // parcours les colonnes de carte
+                // verifie si une autre colonne a la meme sorte et superieur carte que notre colonne
+                for (List<Carte> colonneDeCarte : colonneCartes)
+                {
+                    // parcours la colonne
+                    for (Carte carte : colonneDeCarte)
+                    {
+                        // verifie si la carte est de meme sorte et quelle est superieur aux deux autre
+                        if (colonne.get(0).getSorte() == carte.getSorte() && colonne.get(0).getValeur().getValeur() < carte.getValeur().getValeur() &&
+                                colonne.get(1).getValeur().getValeur() < carte.getValeur().getValeur())
+                        {
+                            colonne.clear();
+                        }
+                    }
+                }
+            }
+        } else
+        {
+            // verifie si la carte est de la meme sorte et quelle est superieur
+            if (colonne.get(colonne.size() - 1).getSorte() == colonne.get(colonne.size() - 2).getSorte() && colonne.get(colonne.size() - 1).getValeur().getValeur() < colonne.get(colonne.size() - 2).getValeur().getValeur())
+            {
+                // enleve la derniere carte de la colonne recu en parametre
+                colonne.remove(colonne.size() - 1);
+
+                // redessiner les colonnes modifiers
+                dessinerListeCartes(pNoListe);
+            }
+        }
     }
 
     /**
