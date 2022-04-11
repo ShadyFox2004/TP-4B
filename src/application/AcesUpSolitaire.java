@@ -83,11 +83,8 @@ public class AcesUpSolitaire extends JFrame
     private JButton btnPiger = new JButton("Piger");
     private JEditorPane txtPioche = new JEditorPane();
 
-    // La pioche qui va recevoir le paquet de cartes
-    Pioche pioche = null;
-
-    // Les listes qui représentent les infos des colonnes de cartes
-    List[] colonneCartes = new ArrayList[AcesUpSolitaire.NBR_COLONNES_DE_CARTES];
+    // La partie en jeu.
+    private Partie partie;
 
     /**
      * Constructeur de l'application Aces Up Solitaire. Il met en place une
@@ -159,26 +156,7 @@ public class AcesUpSolitaire extends JFrame
         this.setVisible(true);
     }
 
-    /**
-     * Retourne la colonne de cartes correspondant au numéro demandé en
-     * paramètre.
-     *
-     * @param index le numéro de la colonne souhaitée de 0 à 3
-     * @return un pointeur sur la colonne demandée ou null si le numéro n'est
-     * pas bon.
-     */
-    public List getColonneCartes(int index)
-    {
-        List retColonne;
-        if (index >= 0 && index < NBR_COLONNES_DE_CARTES)
-        {
-            retColonne = colonneCartes[index];
-        } else
-        {
-            retColonne = null;
-        }
-        return retColonne;
-    }
+
 
     /**
      * Compte le nombre de fois que le joueur a triché
@@ -210,23 +188,9 @@ public class AcesUpSolitaire extends JFrame
      */
     public void initPartie(PaquetDeCartes pPDC)
     {
-        nbTriche = 0;
-        Carte carteTemp = null;
-        pPDC.brasser();
-        pioche = new Pioche(pPDC);
-
+        partie = new Partie(pPDC);
         for (int i = 0; i < AcesUpSolitaire.NBR_COLONNES_DE_CARTES; i++)
         {
-            colonneCartes[i] = new ArrayList();
-
-            // La pioche peut être vide
-            if (!pioche.isEmpty())
-            {
-                carteTemp = pioche.piger();
-                carteTemp.setVisible(true);
-                colonneCartes[i].add(0, carteTemp);
-            }
-
             dessinerListeCartes(i);
         }
 
@@ -246,9 +210,9 @@ public class AcesUpSolitaire extends JFrame
 
         txtListeCartes[noColonne].setText("");
 
-        for (int i = (colonneCartes[noColonne].size() - 1); i >= 0; i--)
+        for (int i = (partie.getColonneCartes(noColonne).size() - 1); i >= 0; i--)
         {
-            carteTemp = (Carte) colonneCartes[noColonne].get(i);
+            carteTemp = (Carte) partie.getColonneCartes(noColonne).get(i);
             if (carteTemp.getSorte().equals(SorteCartes.COEUR)
                     || carteTemp.getSorte().equals(SorteCartes.CARREAU))
             {
@@ -273,9 +237,9 @@ public class AcesUpSolitaire extends JFrame
     {
         String txtHtml = "<center><font size='22' color='blue'>";
 
-        if (!pioche.isEmpty())
+        if (!partie.getPioche().isEmpty())
         {
-            txtHtml = txtHtml + "" + pioche.size() + "<br/>";
+            txtHtml = txtHtml + "" + partie.getPioche().size() + "<br/>";
         }
 
         txtHtml += "</font></center>";
@@ -469,7 +433,7 @@ public class AcesUpSolitaire extends JFrame
         }
 
         // Dessiner les composants du jeu
-        for (int i = 0; i < colonneCartes.length; i++)
+        for (int i = 0; i < partie.getColonneCartes().length; i++)
         {
             dessinerListeCartes(i);
         }
@@ -499,18 +463,18 @@ public class AcesUpSolitaire extends JFrame
      */
     public void gestionDeplacerListe(int indexColonne)
     {
-        List<Carte> colonne = getColonneCartes(indexColonne);
+        List<Carte> colonne = partie.getColonneCartes(indexColonne);
 
         int indexColonneVide = 0;
 
         // trouve une colonne de carte vide
-        while (!getColonneCartes(indexColonneVide).isEmpty())
+        while (!partie.getColonneCartes(indexColonneVide).isEmpty())
         {
             indexColonneVide++;
         }
 
         // deplace la derniere carte de la colonne recu en parametre
-        List<Carte> colonneVide = getColonneCartes(indexColonneVide);
+        List<Carte> colonneVide = partie.getColonneCartes()[indexColonneVide];
         colonneVide.add(colonne.get(colonne.size() - 1));
 
         // enleve la carte de la colonne originelle
@@ -535,7 +499,7 @@ public class AcesUpSolitaire extends JFrame
     public void gestionEnleverListe(int pNoListe)
     {
         // instance qui represente la colonne facilite les manips
-        List<Carte> colonne = getColonneCartes(pNoListe);
+        List<Carte> colonne = partie.getColonneCartes(pNoListe);
 
         // verifie si il ne reste que deux carte dans la colonne
         if (colonne.size() == 2)
@@ -546,7 +510,7 @@ public class AcesUpSolitaire extends JFrame
 
                 // parcours les colonnes de carte
                 // verifie si une autre colonne a la meme sorte et superieur carte que notre colonne
-                for (List<Carte> colonneDeCarte : colonneCartes)
+                for (List<Carte> colonneDeCarte : partie.getColonneCartes())
                 {
                     // parcours la colonne
                     for (Carte carte : colonneDeCarte)
@@ -584,9 +548,9 @@ public class AcesUpSolitaire extends JFrame
     // TODO Complétez le code de la méthode : gestionPiger
     public void gestionPiger()
     {
-        for (int i = 0; i < colonneCartes.length; i++)
+        for (int i = 0; i < partie.getColonneCartes().length; i++)
         {
-            colonneCartes[i].add(pioche.piger());
+            partie.getColonneCartes(i).add(partie.getPioche().piger());
             dessinerListeCartes(i);
         }
     }
@@ -598,9 +562,9 @@ public class AcesUpSolitaire extends JFrame
      */
     public void gestionFinPartie()
     {
-        if (pioche.isEmpty())
+        if (partie.getPioche().isEmpty())
         {
-            if (partieGagner())
+            if (partie.estGagner())
             {
                 if (nbTriche == 0)
                 {
@@ -620,68 +584,12 @@ public class AcesUpSolitaire extends JFrame
 
             } else
             {
-                if (partieTerminer())
+                if (partie.estTerminer())
                 {
                     Triche.finiOuTriche(AcesUpSolitaire.this);
                 }
             }
         }
-    }
-
-    /**
-     * Permet de savoir, lorsque la pioche est vide, s'il y a une victoire. Donc
-     * qu'il y ait seulement 1 carte, un as, en haut de chacune des colonnes de
-     * cartes
-     *
-     * @return boolean, vrai si on a une victoire.
-     */
-    public boolean partieGagner()
-    {
-        boolean isGagner = false;
-        if (pioche.isEmpty())
-        {
-            for (List<Carte> colonneDeCarte : colonneCartes)
-            {
-                isGagner = colonneDeCarte.size() == 1 && colonneDeCarte.get(0).getValeur().getValeur() == 1;
-            }
-        }
-        return isGagner;
-    }
-
-    /**
-     * Permet de savoir, lorsque la pioche est vide, s'il est possible de jouer
-     * encore un coup ou si la partie est terminée.
-     *
-     * @return boolean, vrai s'il n'est pas possible de jouer un autre coup,
-     * donc que la partie est terminée.
-     */
-    public boolean partieTerminer()
-    {
-        Carte carteTemp = null;
-        int compteSorte = 0;
-        boolean colonneDeplacable = false;
-
-        if (pioche.isEmpty())
-        {
-            // Vérifier si je peux encore enlever des cartes, trouver s'il y a
-            // au moins une colonne vide et trouver si une colonne a plus d'une
-            // carte, donc encore déplaçable.
-            for (int i = 0; i < colonneCartes.length; i++)
-            {
-                if (!colonneCartes[i].isEmpty())
-                {
-                    colonneDeplacable = (colonneDeplacable
-                            || (colonneCartes[i].size() > 1));
-                    carteTemp = (Carte) colonneCartes[i].get(0);
-                    // Addition de bits (bitwise)
-                    compteSorte += Math.pow(2,
-                            (carteTemp.getSorte().ordinal()));
-                }
-            }
-        }
-
-        return (!(compteSorte != (Math.pow(2, colonneCartes.length) - 1))
-                || !colonneDeplacable);
     }
 
     /**
