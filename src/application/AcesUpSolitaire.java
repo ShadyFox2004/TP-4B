@@ -497,7 +497,6 @@ public class AcesUpSolitaire extends JFrame
      * @param indexColonne, le numéro de la colonne d'où on veut déplacer la
      *                      carte.
      */
-    // TODO Complétez le code de la méthode : gestionDeplacerListe
     public void gestionDeplacerListe(int indexColonne)
     {
         List<Carte> colonne = getColonneCartes(indexColonne);
@@ -533,7 +532,6 @@ public class AcesUpSolitaire extends JFrame
      *
      * @param pNoListe, le numéro de la colonne d'où on veut enlever la carte.
      */
-    // TODO Complétez le code de la méthode : gestionEnleverListe
     public void gestionEnleverListe(int pNoListe)
     {
         // instance qui represente la colonne facilite les manips
@@ -633,10 +631,17 @@ public class AcesUpSolitaire extends JFrame
      *
      * @return boolean, vrai si on a une victoire.
      */
-    // TODO Complétez le code de la méthode : partieGagne
     public boolean partieGagner()
     {
-        return true;
+        boolean isGagner = false;
+        if (pioche.isEmpty())
+        {
+            for (List<Carte> colonneDeCarte : colonneCartes)
+            {
+                isGagner = colonneDeCarte.size() == 1 && colonneDeCarte.get(0).getValeur().getValeur() == 1;
+            }
+        }
+        return isGagner;
     }
 
     /**
