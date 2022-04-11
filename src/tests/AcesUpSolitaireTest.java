@@ -25,13 +25,11 @@ public class AcesUpSolitaireTest
         // vide une colonne
         jeu.getColonneCartes(1).clear();
 
-        // taille de la colonne d'ou vient la carte a deplacer
-        int tailleColonne = jeu.getColonneCartes(0).size();
-
         // deplace la carte vers une colonne vide
         jeu.gestionDeplacerListe(0);
 
-        assertEquals(tailleColonne, jeu.getColonneCartes(0).size());
+        assertEquals(0, jeu.getColonneCartes(0).size());
+        assertEquals(1, jeu.getColonneCartes(1).size());
 
     }
 
