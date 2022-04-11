@@ -584,7 +584,11 @@ public class AcesUpSolitaire extends JFrame
     // TODO Complétez le code de la méthode : gestionPiger
     public void gestionPiger()
     {
-
+        for (int i = 0; i < colonneCartes.length; i++)
+        {
+            colonneCartes[i].add(pioche.piger());
+            dessinerListeCartes(i);
+        }
     }
 
     /**
